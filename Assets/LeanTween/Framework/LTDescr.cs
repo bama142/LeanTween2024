@@ -84,6 +84,7 @@ public class LTDescr
 	public RectTransform rectTransform;
 	public UnityEngine.UI.Text uiText;
 	public UnityEngine.UI.Image uiImage;
+	public TMPro.TextMeshProUGUI uiTextTMP;
 	public UnityEngine.UI.RawImage rawImage;
 	public UnityEngine.Sprite[] sprites;
 #endif
@@ -599,7 +600,28 @@ public class LTDescr
 		};
 		return this;
 	}
+	
+	public LTDescr setTextColorTMP()
+	{
+		this.type = TweenAction.TEXT_COLOR;
+		this.initInternal = () => {
+			this.uiTextTMP = trans.GetComponent<TMPro.TextMeshProUGUI>();
+			this.setFromColor(this.uiTextTMP != null ? this.uiTextTMP.color : Color.white);
+		};
+		this.easeInternal = () => {
+			newVect = easeMethod();
+			val = newVect.x;
+			Color toColor = tweenColor(this, val);
+			this.uiTextTMP.color = toColor;
+			if (dt != 0f && this._optional.onUpdateColor != null)
+				this._optional.onUpdateColor(toColor);
 
+			if (this.useRecursion && trans.childCount > 0)
+				textColorRecursiveTMP(this.trans, toColor);
+		};
+		return this;
+	}
+	
 	public LTDescr setCanvasAlpha(){
 		this.type = TweenAction.CANVAS_ALPHA;
 		this.initInternal = ()=>{
@@ -1169,6 +1191,21 @@ public class LTDescr
 					uiText.color = toColor;
 				}
 				textColorRecursive(child, toColor);
+			}
+		}
+	}
+	
+	private static void textColorRecursiveTMP(Transform trans, Color toColor)
+	{
+		if (trans.childCount > 0)
+		{
+			foreach (Transform child in trans)
+			{
+				if (child.TryGetComponent<TMPro.TextMeshProUGUI>(out var uiText))
+				{
+					uiText.color = toColor;
+				}
+				textColorRecursiveTMP(child, toColor);
 			}
 		}
 	}
