@@ -144,6 +144,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using TMPro;
 
 public enum TweenAction{
     MOVE_X,
@@ -1239,6 +1240,15 @@ public class LeanTween : MonoBehaviour {
     public static LTDescr colorText(RectTransform rectTransform, Color to, float time){
         return pushNewTween(rectTransform.gameObject, new Vector3(1.0f, to.a, 0.0f), time, options().setTextColor().setPoint(new Vector3(to.r, to.g, to.b)));
     }
+    
+    /// <summary>
+    /// Change the color of a TextMeshProUGUI Object.    
+    /// </summary>
+    public static LTDescr textColorTMP(TextMeshProUGUI rectTransform, Color to, float time)
+    {
+        return pushNewTween(rectTransform.gameObject, new Vector3(1.0f, to.a, 0.0f), time, options().setTextColorTMP().setPoint(new Vector3(to.r, to.g, to.b)));
+    }
+    
     #endif
 
     /**
