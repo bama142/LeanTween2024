@@ -1,3 +1,6 @@
+LeanTween2024
+=========
+
 LeanTween2024 adds support for TextMeshPro as supposed to the old legacy text which is being deprecated.
 
 
